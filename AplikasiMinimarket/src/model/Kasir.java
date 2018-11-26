@@ -9,22 +9,18 @@ package model;
 import com.mysql.jdbc.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import sql.*;
+import sql.SqlStatement;
 
 /**
  *
  * @author CakBin
  */
-public class Manager {
+public class Kasir {
     private String id;
     private String pwd;
     private String Nama;
     private int umur;
 
-    public Manager() {
-        umur = 0;
-    }
-    
     public String getId() {
         return id;
     }
@@ -56,15 +52,11 @@ public class Manager {
     public void setUmur(int umur) {
         this.umur = umur;
     }
-
-    public void print(){
-        System.out.println(Nama+" "+umur);
-    }
     
     public String Add(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("INSERT INTO manager VALUES (\""+ id +"\", \""+ Nama +"\", \""+ umur +"\", \""+ pwd +"\");");
+            s.execute("INSERT INTO kasir VALUES (\""+ id +"\", \""+ Nama +"\", \""+ umur +"\", \""+ pwd +"\");");
         }catch(SQLException e){
             return "Error";
         }
@@ -74,7 +66,7 @@ public class Manager {
     public String Delete(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("DELETE * FROM manager WHERE pegawai_id =\""+ id +"\";");
+            s.execute("DELETE * FROM kasir WHERE pegawai_id =\""+ id +"\";");
         }catch(SQLException e){
             return "Error";
         }
@@ -84,7 +76,7 @@ public class Manager {
     public String Update(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("UPDATE manager SET nama = \""+ Nama +"\", umur = \""+ umur +"\",  password = \""+ pwd +"\"WHERE pegawai_id =\""+ id +"\";");
+            s.execute("UPDATE kasir SET nama = \""+ Nama +"\", umur = \""+ umur +"\",  password = \""+ pwd +"\"WHERE pegawai_id =\""+ id +"\";");
         }catch(SQLException e){
             return "Error";
         }
@@ -95,7 +87,7 @@ public class Manager {
         String msg;
         try{
             Statement s = new SqlStatement().makeStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM manager WHERE id_pegawai = \""+id+"\" AND password=\""+pwd+"\";");
+            ResultSet rs = s.executeQuery("SELECT * FROM kasir WHERE id_pegawai = \""+id+"\" AND password=\""+pwd+"\";");
             if(rs.first()){
                 Nama = rs.getString("Nama");
                 umur = rs.getInt("Umur");
