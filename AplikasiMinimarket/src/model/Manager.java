@@ -91,16 +91,19 @@ public class Manager {
         return "Berhasil di-update";
     }
     
-    public String Auth() throws SQLException{
-        Statement s = new SqlStatement().makeStatement();
+    public String Auth(){
         String msg;
-        ResultSet rs = s.executeQuery("SELECT * FROM manager WHERE id_pegawai = \""+id+"\" AND password=\""+pwd+"\";");
-        if(rs.first()){
-            Nama = rs.getString("Nama");
-            umur = rs.getInt("Umur");
-            msg = "login berhasil";
-        }else{
-            msg = "login gagal";
+        try{
+            Statement s = new SqlStatement().makeStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM manager WHERE id_pegawai = \""+id+"\" AND password=\""+pwd+"\";");
+            if(rs.first()){
+                Nama = rs.getString("Nama");
+                umur = rs.getInt("Umur");
+                msg = "login berhasil";
+            }else{
+             msg = "login gagal";
+        }}catch(SQLException e){
+            return "error";
         }
         return msg;
     }
