@@ -22,6 +22,9 @@ public class Manager {
     private int umur;
 
     public Manager() {
+        id = "";
+        pwd = "";
+        Nama = "";
         umur = 0;
     }
     
@@ -64,9 +67,9 @@ public class Manager {
     public String Add(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("INSERT INTO manager VALUES (\""+ id +"\", \""+ Nama +"\", \""+ umur +"\", \""+ pwd +"\");");
+            s.execute("INSERT INTO manager VALUES ('"+ id +"', '"+ Nama +"', '"+ umur +"', '"+ pwd +"');");
         }catch(SQLException e){
-            return "Error";
+            return e.getMessage();
         }
         return "Berhasil ditambahkan";
     }
@@ -74,9 +77,9 @@ public class Manager {
     public String Delete(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("DELETE * FROM manager WHERE pegawai_id =\""+ id +"\";");
+            s.execute("DELETE FROM manager WHERE id_pegawai = '"+ id +"';");
         }catch(SQLException e){
-            return "Error";
+            return e.getMessage();
         }
         return "Berhasil dihapus";
     }
@@ -84,28 +87,39 @@ public class Manager {
     public String Update(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("UPDATE manager SET nama = \""+ Nama +"\", umur = \""+ umur +"\",  password = \""+ pwd +"\"WHERE pegawai_id =\""+ id +"\";");
+            s.execute("UPDATE manager SET nama = '"+ Nama +"', umur = '"+ umur +"',  password = '"+ pwd +"' WHERE id_pegawai = '"+ id +"';");
         }catch(SQLException e){
-            return "Error";
+            return e.getMessage();
         }
         return "Berhasil di-update";
     }
     
-    public String Auth(){
-        String msg;
-        try{
-            Statement s = new SqlStatement().makeStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM manager WHERE id_pegawai = \""+id+"\" AND password=\""+pwd+"\";");
-            if(rs.first()){
-                Nama = rs.getString("Nama");
-                umur = rs.getInt("Umur");
-                msg = "login berhasil";
-            }else{
-             msg = "login gagal";
-            }
-        }catch(SQLException e){
-            return "error";
+    public boolean Auth() throws SQLException{
+        boolean b;
+        Statement s = new SqlStatement().makeStatement();
+        ResultSet rs = s.executeQuery("SELECT * FROM manager WHERE id_pegawai = '"+id+"' AND password='"+pwd+"';");
+        if(rs.first()){
+            Nama = rs.getString("Nama");
+            umur = rs.getInt("Umur");
+            b = true;   
+        }else{
+            b = false;
         }
-        return msg;
+        return b;
+    }
+    
+    public boolean SelectID(String _id) throws SQLException{
+        boolean b;
+        id = _id;
+        Statement s = new SqlStatement().makeStatement();
+        ResultSet rs = s.executeQuery("SELECT * FROM manager WHERE id_pegawai = '"+ id +"' ;");
+        if(rs.first()){
+            Nama = rs.getString("Nama");
+            umur = rs.getInt("Umur");
+            b = true;   
+        }else{
+            b = false;
+        }
+        return b;
     }
 }
