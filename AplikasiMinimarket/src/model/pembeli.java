@@ -6,6 +6,9 @@
 
 package model;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author CakBin
@@ -13,4 +16,6 @@ package model;
 public class pembeli {
     private int id;
     private String tanggal;
+    private Kasir k;
+    private List<Barang> Daftar;
 }
