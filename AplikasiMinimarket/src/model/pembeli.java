@@ -27,7 +27,7 @@ public class pembeli {
         id = 0;
         tanggal = "2018-11-30";
         k = new Kasir();
-        Daftar = new ArrayList();
+        Daftar = new ArrayList<>();
     }
 
     public int getId() {
@@ -99,6 +99,7 @@ public class pembeli {
     
     public boolean SelectID() throws SQLException{
         boolean b;
+        Daftar.clear();
         Barang brg = new Barang();
         Statement s = new SqlStatement().makeStatement();
         ResultSet rs = s.executeQuery("SELECT * FROM pembeli WHERE No_Pengunjung = '"+ id +"';");
@@ -109,6 +110,7 @@ public class pembeli {
             while(rs.next()){
                 brg.Search(rs.getString("kodebarang"));
                 brg.setJumlah(rs.getInt("jumlah"));
+                Daftar.add(brg);
             }
         }else{
             b = false;
@@ -125,5 +127,26 @@ public class pembeli {
         }else{
             id = 0;
         }
+    }
+    
+    public int totalHarga(){
+        int total = 0;
+        for (Barang Daftar1 : Daftar) {
+            total += Daftar1.hargaTotal();
+        }
+        return total;
+    }
+    
+    public List<Barang> rekapBrg() throws SQLException{
+        List<Barang> B = new ArrayList<>();
+        Barang brg = new Barang();
+        Statement s = new SqlStatement().makeStatement();
+        ResultSet rs = s.executeQuery("SELECT kodebarang, SUM(jumlah) as jml FROM pembelian GROUP BY kodebarang;");
+        while(rs.next()){
+            brg.Search(rs.getString("kodebarang"));
+            brg.setJumlah(rs.getInt("jml"));
+            B.add(brg);
+        }
+        return B;
     }
 }

@@ -64,6 +64,10 @@ public class Barang {
         System.out.println(kode +" "+ nama +" "+ harga +" "+ jumlah);
     }
     
+    public int hargaTotal(){
+        return (jumlah * harga);
+    }
+    
     public String Add(){
         try{
             Statement s = new SqlStatement().makeStatement();

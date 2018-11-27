@@ -9,6 +9,8 @@ package model;
 import com.mysql.jdbc.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
 import sql.SqlStatement;
 
 /**
@@ -132,5 +134,17 @@ public class Kasir {
             b = false;
         }
         return b;
+    }
+    
+    public List<Kasir> SelectbyMng(String _id) throws SQLException{
+        List<Kasir> Daftar = new ArrayList<>();
+        Kasir k = new Kasir();
+        Statement s = new SqlStatement().makeStatement();
+        ResultSet rs = s.executeQuery("SELECT * FROM kasir WHERE id_manager = '"+ _id +"' ;");
+        while(rs.next()){
+            k.SelectID(rs.getString("id_pegawai"));
+            Daftar.add(k);
+        }
+        return Daftar;
     }
 }
