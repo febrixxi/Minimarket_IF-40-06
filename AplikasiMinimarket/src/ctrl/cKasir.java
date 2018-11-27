@@ -7,51 +7,54 @@
 package ctrl;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Barang;
 import model.Kasir;
-import model.Manager;
 import model.pembeli;
 
 /**
  *
  * @author CakBin
  */
-public class cManager {
-    private Manager m;
+public class cKasir {
     private Kasir k;
-    private Barang b;
-    private pembeli pembelian;
+    private pembeli p;
+    private Barang stok;
+    private Barang belanja;
     private String msg;
     
-    public cManager(){
-        m = new Manager();
+    public cKasir(){
+        k = new Kasir();
     }
     
-    public void init(Manager _m){
-        m = _m;
-        k = new Kasir();
-        k.setMng(m);
-        b = new Barang();
+    public void init(Kasir _k){
+        k = _k;
+        p = new pembeli();
+        try{
+            p.setLastId();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        stok = new Barang();
+        belanja = new Barang();
         msg = "";
     }
     
-    private boolean verifikasiKasir(){
+    private boolean ValidasiPembelian(){
         return true;
     }
     
-    private boolean verifikasiBarang(){
-        return true;
+    private void savePembelian(){
+        msg = p.Add();
     }
     
     private int totalPenjualan(){
         int total = 0;
         try {
             List<Barang> B;
-            B = pembelian.rekapBrg();
+            B = p.rekapBrgbyKsr(k.getId());
             for (Barang B1 : B) {
                 total += B1.hargaTotal();
             }
@@ -59,17 +62,5 @@ public class cManager {
             Logger.getLogger(cManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return total;
-    }
-    
-    private void addKasir(){
-        msg = k.Add();
-    }
-    
-    private void delKasir(){
-        msg = k.Delete();
-    }
-    
-    private void updateKasir(){
-        msg = k.Update();
-    }
+    } 
 }
