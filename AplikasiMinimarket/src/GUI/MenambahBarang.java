@@ -25,9 +25,9 @@ public class MenambahBarang extends javax.swing.JFrame{
      */
     public MenambahBarang() {
         initComponents();
-        NumberFormat numFormat = NumberFormat.getNumberInstance();
+        /* NumberFormat numFormat = NumberFormat.getNumberInstance();
         tHarga = new JFormattedTextField(numFormat);
-        tHarga.setColumns(10);
+        tHarga.setColumns(10); */
     }
 
     public JButton getbCancel() {

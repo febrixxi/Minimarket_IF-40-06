@@ -71,7 +71,7 @@ public class Barang {
     public String Add(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("INSERT INTO barang_barang VALUES ('"+ kode +"', '"+ nama +"', '"+ harga +"', '"+ jumlah +"' );");
+            s.execute("INSERT INTO barang_barang VALUES ('"+ kode +"', '"+ nama +"', '"+ jumlah +"', '"+ harga +"' );");
         }catch(SQLException e){
             return e.getMessage();
         }

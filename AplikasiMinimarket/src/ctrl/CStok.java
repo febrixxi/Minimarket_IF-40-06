@@ -46,7 +46,7 @@ public class CStok implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        String kode = cS.getKode();
+        String kode = cS.getKode().toUpperCase();
         try {
             if(b.Search(kode)){
                 cS2.setNama(b.getNama());
