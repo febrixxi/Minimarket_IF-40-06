@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 /**
@@ -34,6 +35,10 @@ public class CekStok extends javax.swing.JFrame {
     
     public void setMsg(String s){
         lMsg.setText(s);
+    }
+    
+    public void addActionListener(ActionListener e){
+        bCari.addActionListener(e);
     }
 
     /**

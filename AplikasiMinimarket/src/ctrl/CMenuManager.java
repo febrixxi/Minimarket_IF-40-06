@@ -26,14 +26,17 @@ import model.pembeli;
 public class CMenuManager implements ActionListener{
     private Manager m;
     private HomepageManager HM;
+    private CStok cek;
     //private pembeli pembelian;
     //private String msg;
     
     public CMenuManager(Manager _m){
         m = _m;
         HM = new HomepageManager();
+        cek = new CStok();
         HM.addActionListener(this);
         HM.setVisible(true);
+        
     }
     
     /* private boolean verifikasiKasir(){
@@ -75,13 +78,16 @@ public class CMenuManager implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object Source = e.getSource();
         if(Source.equals(HM.getbPgw())){
-            
+            HM.dispose();
+            CTbhPegawai Cpgw = new CTbhPegawai(m);
         }else if(Source.equals(HM.getbAddBrg())){
-            
+            HM.dispose();
+            CTbhBarang Cbrg = new CTbhBarang(m);
         }else if(Source.equals(HM.getbCekBrg())){
-            
+            cek.Start();
         }else if(Source.equals(HM.getbLogout())){
             HM.dispose();
+            cek.dispose();
             clogin l = new clogin();
         }
     }

@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,11 @@ public class MenambahPegawai extends javax.swing.JFrame {
     
     public void setMsg(String s){
         lMsg.setText(s);
+    }
+    
+    public void addActionListener(ActionListener e){
+        bCancel.addActionListener(e);
+        bSubmit.addActionListener(e);
     }
 
     /**

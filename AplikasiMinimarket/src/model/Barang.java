@@ -71,7 +71,7 @@ public class Barang {
     public String Add(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("INSERT INTO barang-barang VALUES ('"+ kode +"', '"+ nama +"', '"+ harga +"', '"+ jumlah +"' );");
+            s.execute("INSERT INTO barang_barang VALUES ('"+ kode +"', '"+ nama +"', '"+ harga +"', '"+ jumlah +"' );");
         }catch(SQLException e){
             return e.getMessage();
         }
@@ -81,7 +81,7 @@ public class Barang {
     public String Delete(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("DELETE FROM barang-barang WHERE kodebarang = '"+ kode +"';");
+            s.execute("DELETE FROM barang_barang WHERE kodebarang = '"+ kode +"';");
         }catch(SQLException e){
             return e.getMessage();
         }
@@ -102,7 +102,7 @@ public class Barang {
         boolean b;
         kode = _kode;
         Statement s = new SqlStatement().makeStatement();
-        ResultSet rs = s.executeQuery("SELECT * FROM barang-barang WHERE kodebarang = '"+ kode +"' ;");
+        ResultSet rs = s.executeQuery("SELECT * FROM barang_barang WHERE kodebarang = '"+ kode +"' ;");
         if(rs.first()){
             nama = rs.getString("namabarang");
             harga = rs.getInt("harga");

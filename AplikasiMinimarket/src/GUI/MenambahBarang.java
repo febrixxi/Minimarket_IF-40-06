@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -60,6 +61,11 @@ public class MenambahBarang extends javax.swing.JFrame{
     
     public void setMsg(String s){
         lMsg.setText(s);
+    }
+    
+    public void addActionListener(ActionListener e){
+        bCancel.addActionListener(e);
+        bSubmit.addActionListener(e);
     }
     
     public void EmptyAll(){
