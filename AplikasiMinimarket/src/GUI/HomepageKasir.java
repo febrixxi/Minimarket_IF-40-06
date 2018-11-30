@@ -5,6 +5,9 @@
  */
 package GUI;
 
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+
 /**
  *
  * @author a456ur
@@ -16,6 +19,24 @@ public class HomepageKasir extends javax.swing.JFrame {
      */
     public HomepageKasir() {
         initComponents();
+    }
+
+    public JButton getbLaporan() {
+        return bLaporan;
+    }
+
+    public JButton getbLogout() {
+        return bLogout;
+    }
+
+    public JButton getbTransaksi() {
+        return bTransaksi;
+    }
+    
+    public void addActionListener(ActionListener e){
+        bTransaksi.addActionListener(e);
+        bLaporan.addActionListener(e);
+        bLogout.addActionListener(e);
     }
 
     /**

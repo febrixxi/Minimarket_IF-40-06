@@ -6,6 +6,9 @@
 
 package ctrl;
 
+import GUI.HomepageManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,26 +23,20 @@ import model.pembeli;
  *
  * @author CakBin
  */
-public class cManager {
+public class CMenuManager implements ActionListener{
     private Manager m;
-    private Kasir k;
-    private Barang b;
-    private pembeli pembelian;
-    private String msg;
+    private HomepageManager HM;
+    //private pembeli pembelian;
+    //private String msg;
     
-    public cManager(){
-        m = new Manager();
-    }
-    
-    public void init(Manager _m){
+    public CMenuManager(Manager _m){
         m = _m;
-        k = new Kasir();
-        k.setMng(m);
-        b = new Barang();
-        msg = "";
+        HM = new HomepageManager();
+        HM.addActionListener(this);
+        HM.setVisible(true);
     }
     
-    private boolean verifikasiKasir(){
+    /* private boolean verifikasiKasir(){
         return true;
     }
     
@@ -71,5 +68,21 @@ public class cManager {
     
     private void updateKasir(){
         msg = k.Update();
+    }
+    */
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object Source = e.getSource();
+        if(Source.equals(HM.getbPgw())){
+            
+        }else if(Source.equals(HM.getbAddBrg())){
+            
+        }else if(Source.equals(HM.getbCekBrg())){
+            
+        }else if(Source.equals(HM.getbLogout())){
+            HM.dispose();
+            clogin l = new clogin();
+        }
     }
 }

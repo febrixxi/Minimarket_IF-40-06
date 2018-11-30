@@ -5,6 +5,10 @@
  */
 package GUI;
 
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JToggleButton;
+
 /**
  *
  * @author a456ur
@@ -16,6 +20,29 @@ public class HomepageManager extends javax.swing.JFrame {
      */
     public HomepageManager() {
         initComponents();
+    }
+
+    public JButton getbAddBrg() {
+        return bAddBrg;
+    }
+
+    public JButton getbCekBrg() {
+        return bCekBrg;
+    }
+
+    public JToggleButton getbLogout() {
+        return bLogout;
+    }
+
+    public JButton getbPgw() {
+        return bPgw;
+    }
+    
+    public void addActionListener(ActionListener e){
+        bPgw.addActionListener(e);
+        bAddBrg.addActionListener(e);
+        bCekBrg.addActionListener(e);
+        bLogout.addActionListener(e);
     }
 
     /**
