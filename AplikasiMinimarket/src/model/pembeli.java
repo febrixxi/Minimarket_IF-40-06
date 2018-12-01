@@ -11,7 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import sql.SqlStatement;
+
 
 /**
  *
@@ -25,7 +29,7 @@ public class pembeli {
     
     public pembeli(){
         id = 0;
-        tanggal = "2018-11-30";
+        tanggal = Tanggal();
         k = new Kasir();
         Daftar = new ArrayList<>();
     }
@@ -161,5 +165,11 @@ public class pembeli {
             B.add(brg);
         }
         return B;
+    }
+    
+    private String Tanggal() {  
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");  
+        Date date = new Date();  
+        return dateFormat.format(date);  
     }
 }
