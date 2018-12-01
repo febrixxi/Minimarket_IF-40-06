@@ -46,6 +46,27 @@ public class PembelianUI extends javax.swing.JFrame {
         return tBelanja;
     }
     
+    public String getSelectedKode(int row){
+        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
+        String kode = (String) model.getValueAt(row, 0);
+        return kode;
+    }
+    
+    public int getSelectedJumlah(int row){
+        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
+        int jumlah;
+        try{
+            jumlah = (Integer) model.getValueAt(row, 2);
+        }catch(Exception e){
+            jumlah = 0;
+        }
+        return jumlah;
+    }
+    
+    public int getSelectedRow(){
+        return tBelanja.getSelectedRow();
+    }
+    
     public void setKasir(String s){
         lKasir.setText(s);
     }
@@ -55,8 +76,9 @@ public class PembelianUI extends javax.swing.JFrame {
     }
     
     public void setTabel(List<Barang> A){
-        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
         reset();
+        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
+
         
         for(int i = 0; i < A.size(); i++){
             String Kode = A.get(i).getKode();

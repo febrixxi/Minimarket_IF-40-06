@@ -46,6 +46,8 @@ public class CTransaksi implements ActionListener, TableModelListener{
         UI.addActonListener(this);
         UI.addTableModelListener(this);
         
+        
+        
         UI.setVisible(true);
         UI2.setVisible(false);
         
@@ -62,16 +64,85 @@ public class CTransaksi implements ActionListener, TableModelListener{
             UI.setMsg(msg);
         }
     }
+    
+    private void update(int row) throws SQLException{
+        belian = new Barang();
+        if(row >= p.getDaftar().size()){
+            if(belian.Search(UI.getSelectedKode(row).toUpperCase())){
+                belian.setJumlah(UI.getSelectedJumlah(row));
+                p.addBarang(belian);
+                UI.setTabel(p.getDaftar());
+                UI.setTotal(p.totalHarga());
+            }else{
+                msg = "Barang tak ditemukan";
+                UI.setMsg(msg);
+            }         
+        }else{
+            if(belian.Search(UI.getSelectedKode(row).toUpperCase())){
+               belian.setJumlah(UI.getSelectedJumlah(row));
+               p.getDaftar().set(row, belian);
+               UI.setTabel(p.getDaftar());
+               UI.setTotal(p.totalHarga());
+            }else{
+                msg = "Barang tak ditemukan";
+                UI.setMsg(msg);
+            }
+        }
+    }
+    
+    private void setKonfirmasi(){
+        UI2.setTotal(p.totalHarga());
+    }
+    
+    private boolean HitungKembalian(){
+        try{
+            int kembali = p.totalHarga() - UI2.getBayar();
+            if(kembali >= 0){
+                UI2.setKembali(p.totalHarga() - UI2.getBayar());
+                return true;
+            }else{
+                msg = "Uang tak cukup";
+                UI2.setMsg(msg);
+                return false;
+            }
+        }catch(Exception e){
+            msg = "Uang berupa angka";
+            UI2.setMsg(msg);
+            return false;
+        }
+    }
+    
+    private void proses() throws SQLException{
+        if(HitungKembalian()){
+            for (Barang daftar : p.getDaftar()) {
+                stok.Search(daftar.getKode());
+                stok.setJumlah(stok.getJumlah() - daftar.getJumlah());
+                stok.Update();
+            }
+            p.Add();
+            UI2.getbConfirm().setVisible(false);
+        }
+    }
+    private void next(){
+        p.Next();
+        UI.setPembeli(p.getId());
+        UI.reset();
+    }
+    
+    private void delete(){
+        if(UI.getSelectedRow()<p.getDaftar().size()){
+            p.getDaftar().remove(UI.getSelectedRow());
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object Source = e.getSource();
         if(Source.equals(UI.getbSubmit())){
-            msg="";
-            UI.setMsg(msg);
-            UI.tes();
+            UI2.setVisible(true);
+            UI2.getbConfirm().setVisible(true);
         }else if(Source.equals(UI.getbNavData())){
-            UI.reset();
+
         }else if(Source.equals(UI.getbLogout())){
             UI.dispose();
             clogin l = new clogin();
@@ -82,8 +153,12 @@ public class CTransaksi implements ActionListener, TableModelListener{
     public void tableChanged(TableModelEvent e) {
         if(e.getColumn()!=-1){
             if((e.getColumn() == 0)||(e.getColumn() == 2)){
-                msg=Integer.toString(e.getColumn());
-                UI.setMsg(msg);
+                try {
+                    update(e.getFirstRow());
+                } catch (SQLException ex) {
+                    msg="Database error";
+                    UI.setMsg(msg);
+                }
             }
         }else{
             msg=Integer.toString(e.getColumn());

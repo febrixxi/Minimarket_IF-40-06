@@ -6,6 +6,7 @@
 
 package GUI;
 
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 /**
@@ -52,12 +53,8 @@ public class KonfirmasiPembelian extends javax.swing.JFrame {
 
         tTotal.setEditable(false);
         tTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        tTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tTotalActionPerformed(evt);
-            }
-        });
 
+        tKembali.setEditable(false);
         tKembali.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         bConfirm.setText("Confirm");
@@ -114,10 +111,6 @@ public class KonfirmasiPembelian extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tTotalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tTotalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,6 +169,11 @@ public class KonfirmasiPembelian extends javax.swing.JFrame {
     
     public void setMsg(String s){
         lMsg.setText(s);
+    }
+    
+    public void addActionListener(ActionListener e){
+        bConfirm.addActionListener(e);
+        bCancel.addActionListener(e);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

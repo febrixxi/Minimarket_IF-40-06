@@ -172,4 +172,10 @@ public class pembeli {
         Date date = new Date();  
         return dateFormat.format(date);  
     }
+    
+    public void printBarang(){
+        for (Barang Daftar1 : Daftar) {
+            Daftar1.print();
+        }
+    }
 }
