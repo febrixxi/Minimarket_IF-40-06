@@ -73,7 +73,8 @@ public class CMenuKasir implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object Source = e.getSource();
         if(Source.equals(HK.getbTransaksi())){
-            
+            HK.dispose();
+            CTransaksi cT = new CTransaksi(k);
         }else if(Source.equals(HK.getbLaporan())){
             
         }else if(Source.equals(HK.getbLogout())){

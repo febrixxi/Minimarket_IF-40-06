@@ -11,5 +11,10 @@ import model.pembeli;
  * @author ASUS
  */
 public class tesPembeli {
-    pembeli p = new pembeli();
+    public static void main(String[] args) {
+         pembeli p = new pembeli();
+         
+         p.print();
+    }
+   
 }
