@@ -83,12 +83,12 @@ public class pembeli {
             Statement s = new SqlStatement().makeStatement();
             s.execute("INSERT INTO pembeli VALUES ('"+ id +"', '"+ tanggal +"' );");
              for (Barang Daftar1 : Daftar) {
-                 s.execute("INSERT INTO pembelian VALUES ('"+ k.getId() +"', '"+ id + "', '"+ Daftar1.getKode() +"', '"+ Daftar1.getJumlah() + "' );");
+                 s.execute("INSERT INTO pembelian (id_pegawai, no_pengunjung, kodebarang, jumlah) VALUES ('"+ k.getId() +"', '"+ id + "', '"+ Daftar1.getKode() +"', '"+ Daftar1.getJumlah() + "' );");
              }
         }catch(SQLException e){
             return e.getMessage();
         }
-        return "Berhasil ditambahkan";
+        return "Transaksi berhasil";
     }
     
     public String Delete(){
@@ -127,7 +127,7 @@ public class pembeli {
         Statement s = new SqlStatement().makeStatement();
         ResultSet rs = s.executeQuery("SELECT * FROM pembeli ORDER BY No_Pengunjung DESC;");
         if(rs.first()){
-            id = rs.getInt("No_Pengunjung");
+            id = rs.getInt("No_Pengunjung") + 1;
         }else{
             id = 0;
         }

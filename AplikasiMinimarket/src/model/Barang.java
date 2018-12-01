@@ -91,7 +91,7 @@ public class Barang {
     public String Update(){
         try{
             Statement s = new SqlStatement().makeStatement();
-            s.execute("UPDATE kasir SET namabarang = '"+ nama +"', harga = '"+ harga +"',  jumlah = '"+ jumlah +"' WHERE kodebarang = '"+ kode +"';");
+            s.execute("UPDATE barang_barang SET namabarang = '"+ nama +"', harga = '"+ harga +"',  jumlah = '"+ jumlah +"' WHERE kodebarang = '"+ kode +"';");
         }catch(SQLException e){
             return e.getMessage();
         }

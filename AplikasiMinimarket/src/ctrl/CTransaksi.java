@@ -46,7 +46,7 @@ public class CTransaksi implements ActionListener, TableModelListener{
         UI.addActonListener(this);
         UI.addTableModelListener(this);
         
-        
+        UI2.addActionListener(this);
         
         UI.setVisible(true);
         UI2.setVisible(false);
@@ -69,7 +69,12 @@ public class CTransaksi implements ActionListener, TableModelListener{
         belian = new Barang();
         if(row >= p.getDaftar().size()){
             if(belian.Search(UI.getSelectedKode(row).toUpperCase())){
-                belian.setJumlah(UI.getSelectedJumlah(row));
+                if(UI.getSelectedJumlah(row) <= belian.getJumlah()){
+                    belian.setJumlah(UI.getSelectedJumlah(row));
+                }else{
+                    msg = "Stok tak mencukupi";
+                    UI.setMsg(msg);
+                }
                 p.addBarang(belian);
                 UI.setTabel(p.getDaftar());
                 UI.setTotal(p.totalHarga());
@@ -79,7 +84,12 @@ public class CTransaksi implements ActionListener, TableModelListener{
             }         
         }else{
             if(belian.Search(UI.getSelectedKode(row).toUpperCase())){
-               belian.setJumlah(UI.getSelectedJumlah(row));
+               if(UI.getSelectedJumlah(row) <= belian.getJumlah()){
+                    belian.setJumlah(UI.getSelectedJumlah(row));
+               }else{
+                    msg = "Stok tak mencukupi";
+                    UI.setMsg(msg);
+                }
                p.getDaftar().set(row, belian);
                UI.setTabel(p.getDaftar());
                UI.setTotal(p.totalHarga());
@@ -96,9 +106,9 @@ public class CTransaksi implements ActionListener, TableModelListener{
     
     private boolean HitungKembalian(){
         try{
-            int kembali = p.totalHarga() - UI2.getBayar();
+            int kembali = UI2.getBayar() - p.totalHarga();
             if(kembali >= 0){
-                UI2.setKembali(p.totalHarga() - UI2.getBayar());
+                UI2.setKembali(kembali);
                 return true;
             }else{
                 msg = "Uang tak cukup";
@@ -119,26 +129,35 @@ public class CTransaksi implements ActionListener, TableModelListener{
                 stok.setJumlah(stok.getJumlah() - daftar.getJumlah());
                 stok.Update();
             }
-            p.Add();
+            msg = p.Add();
+            UI2.setMsg(msg);
             UI2.getbConfirm().setVisible(false);
+            next();
         }
     }
     private void next(){
         p.Next();
         UI.setPembeli(p.getId());
         UI.reset();
+        UI.setMsg(null);
+        UI.setTotal(p.totalHarga());
     }
     
     private void delete(){
         if(UI.getSelectedRow()<p.getDaftar().size()){
             p.getDaftar().remove(UI.getSelectedRow());
+            UI.setTabel(p.getDaftar());
+            UI.setTotal(p.totalHarga());
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object Source = e.getSource();
-        if(Source.equals(UI.getbSubmit())){
+        if(Source.equals(UI.getbDelete())){
+            delete();
+        }else if(Source.equals(UI.getbSubmit())){
+            setKonfirmasi();
             UI2.setVisible(true);
             UI2.getbConfirm().setVisible(true);
         }else if(Source.equals(UI.getbNavData())){
@@ -147,12 +166,25 @@ public class CTransaksi implements ActionListener, TableModelListener{
             UI.dispose();
             clogin l = new clogin();
         }
+        
+        else if(Source.equals(UI2.getbCancel())){
+            UI2.setVisible(false);
+        }else if(Source.equals(UI2.getbConfirm())){
+            try {
+                proses();
+            } catch (SQLException ex) {
+                msg = ex.getMessage();
+                UI2.setMsg(msg);
+            }
+            
+        }
     }
 
     @Override
     public void tableChanged(TableModelEvent e) {
         if(e.getColumn()!=-1){
             if((e.getColumn() == 0)||(e.getColumn() == 2)){
+                UI.setMsg(null);
                 try {
                     update(e.getFirstRow());
                 } catch (SQLException ex) {
@@ -160,9 +192,6 @@ public class CTransaksi implements ActionListener, TableModelListener{
                     UI.setMsg(msg);
                 }
             }
-        }else{
-            msg=Integer.toString(e.getColumn());
-            UI.setMsg(msg);
         }
     }
 }
