@@ -57,6 +57,10 @@ public class MenambahPegawai extends javax.swing.JFrame {
         return tManager.getText();
     }
     
+    public void setMng(String s){
+        tManager.setText(s);
+    }
+    
     public void EmptyAll(){
         tID.setText(null);
         tNama.setText(null);

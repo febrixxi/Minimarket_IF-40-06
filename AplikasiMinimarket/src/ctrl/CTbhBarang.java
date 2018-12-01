@@ -36,17 +36,11 @@ public class CTbhBarang implements ActionListener{
     private boolean Validasi(){
         if(mB.getKode().length() != 10){
             msg = "Kode barang tidak 10 huruf";
-            mB.setMsg(msg);
-            return false;
         }else try {
             if(b.Search(mB.getKode())){
                 msg = "Kode barang sudah ada";
-                mB.setMsg(msg);
-                return false;
             }else if(mB.getNama().isEmpty()){
                 msg = "Nama barang kosong";
-                mB.setMsg(msg);
-                return false;
             }else{
                 int a;
                 try{
@@ -63,6 +57,8 @@ public class CTbhBarang implements ActionListener{
             mB.setMsg(msg);
             return false;
         }
+        mB.setMsg(msg);
+        return false;
     }
     
     @Override
