@@ -158,7 +158,7 @@ public class pembeli {
         List<Barang> B = new ArrayList<>();
         Barang brg = new Barang();
         Statement s = new SqlStatement().makeStatement();
-        ResultSet rs = s.executeQuery("SELECT kodebarang, SUM(jumlah) as jml FROM pembelian GROUP BY kodebarang WHERE id_pegawai ='"+ _id +"';");
+        ResultSet rs = s.executeQuery("SELECT kodebarang, SUM(jumlah) as jml FROM pembelian WHERE id_pegawai = '"+ _id  +"' GROUP BY kodebarang;");
         while(rs.next()){
             brg.Search(rs.getString("kodebarang"));
             brg.setJumlah(rs.getInt("jml"));
