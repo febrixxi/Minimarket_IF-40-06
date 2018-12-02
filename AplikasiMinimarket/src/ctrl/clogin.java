@@ -69,7 +69,7 @@ public class clogin implements ActionListener{
                 L.setMsg(msg);
             }
         } catch (SQLException ex) {
-            msg = "Database error\n";
+            msg = "Database error " + System.lineSeparator();
             msg = msg + ex.getMessage();
             L.setMsg(msg);
         }
