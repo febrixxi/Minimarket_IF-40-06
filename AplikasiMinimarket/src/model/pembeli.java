@@ -154,11 +154,11 @@ public class pembeli {
         return B;
     }
     
-    public List<Barang> rekapBrgbyKsr(String _id) throws SQLException{
+    public List<Barang> rekapBrgbyTgl(String _id, String _tgl) throws SQLException{
         List<Barang> B = new ArrayList<>();
         Barang brg = new Barang();
         Statement s = new SqlStatement().makeStatement();
-        ResultSet rs = s.executeQuery("SELECT kodebarang, SUM(jumlah) as jml FROM pembelian WHERE id_pegawai = '"+ _id  +"' GROUP BY kodebarang;");
+        ResultSet rs = s.executeQuery("SELECT kodebarang, SUM(jumlah) as jml FROM pembelian JOIN pembeli ON (pembelian.no_pengunjung = pembeli.no_pengunjung) WHERE id_pegawai = '"+_id+"' AND tanggal = '"+_tgl+"' GROUP BY kodebarang,tanggal;");
         while(rs.next()){
             brg.Search(rs.getString("kodebarang"));
             brg.setJumlah(rs.getInt("jml"));
