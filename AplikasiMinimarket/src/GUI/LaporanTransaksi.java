@@ -6,8 +6,11 @@
 package GUI;
 
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import model.Barang;
@@ -23,7 +26,6 @@ public class LaporanTransaksi extends javax.swing.JFrame {
      */
     public LaporanTransaksi() {
         initComponents();
-        initRow();
     }
 
     /**
@@ -35,29 +37,30 @@ public class LaporanTransaksi extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lKasir = new javax.swing.JLabel();
+        JLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         fTanggal = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tBelanja = new javax.swing.JTable();
+        tLaporan = new javax.swing.JTable();
         bLogout = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         fTotal = new javax.swing.JTextField();
         lMsg = new javax.swing.JLabel();
+        bTransaksi = new javax.swing.JButton();
+        lKasir = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        lKasir.setText("Kasir :");
-
-        jLabel7.setText("Tanggal");
-
-        fTanggal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fTanggalActionPerformed(evt);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
             }
         });
 
-        tBelanja.setModel(new javax.swing.table.DefaultTableModel(
+        JLabel1.setText("Kasir :");
+
+        jLabel7.setText("Tanggal");
+
+        tLaporan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -80,30 +83,17 @@ public class LaporanTransaksi extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tBelanja.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tBelanjaKeyTyped(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tBelanja);
+        jScrollPane2.setViewportView(tLaporan);
 
         bLogout.setText("Logout");
-        bLogout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bLogoutActionPerformed(evt);
-            }
-        });
 
         jLabel8.setText("Total Pendapatan");
 
         fTotal.setEditable(false);
         fTotal.setText("0");
         fTotal.setName(""); // NOI18N
-        fTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fTotalActionPerformed(evt);
-            }
-        });
+
+        bTransaksi.setText("Transaksi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,8 +111,12 @@ public class LaporanTransaksi extends javax.swing.JFrame {
                                 .addComponent(fTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(JLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lKasir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bTransaksi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bLogout))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lMsg)
@@ -137,8 +131,10 @@ public class LaporanTransaksi extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lKasir)
-                    .addComponent(bLogout))
+                    .addComponent(JLabel1)
+                    .addComponent(bLogout)
+                    .addComponent(bTransaksi)
+                    .addComponent(lKasir))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -156,9 +152,6 @@ public class LaporanTransaksi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public String getTanggal(){
-        return fTanggal.getText();
-    }
     
     public JButton getbLogout() {
         return bLogout;
@@ -175,35 +168,31 @@ public class LaporanTransaksi extends javax.swing.JFrame {
     public void setMsg(String s){
         lMsg.setText(s);
     }
+
+    public JButton getbTransaksi() {
+        return bTransaksi;
+    }
+
+    public JTextField getfTanggal() {
+        return fTanggal;
+    }
     
     public void addActonListener(ActionListener e){
         bLogout.addActionListener(e);
+        bTransaksi.addActionListener(e);
     }   
-    
-    public void addTableModelListener(TableModelListener e){
-        tBelanja.getModel().addTableModelListener(e);
-    }
-    
-    public int getSelectedRow(){
-        return tBelanja.getSelectedRow();
-    }
-    
-    public String getSelectedKode(int row){
-        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
-        String kode = (String) model.getValueAt(row, 0);
-        return kode;
+    public void addFocusListenerE(FocusListener e){
+        fTanggal.addFocusListener(e);
     }
     
     public void reset(){
-        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
+        DefaultTableModel model = (DefaultTableModel) tLaporan.getModel();
         model.setRowCount(0);
-        initRow();
-        
     }
     
     public void setTabel(List<Barang> A){
         reset();
-        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
+        DefaultTableModel model = (DefaultTableModel) tLaporan.getModel();
 
         
         for(int i = 0; i < A.size(); i++){
@@ -218,49 +207,16 @@ public class LaporanTransaksi extends javax.swing.JFrame {
         }
     }
     
-    public int getSelectedJumlah(int row){
-        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
-        String s;
-        int jumlah = 0;
-        try{
-            s = (String) model.getValueAt(row, 2);
-            jumlah = Integer.parseInt(s);
-        }catch(Exception e){
-            lMsg.setText("Jumlah berupa angka");
-            return jumlah;
-        }
-        return jumlah;
-    }
     
-    private void initRow(){
-        DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
-        String a = "";
-        String b = "";
-        String c = "";
-        int d = 0;       
-        Object[] row = {a,b,c,d};
-        model.insertRow(0, row);       
-    }
     
     
         
     
     
-    private void fTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fTanggalActionPerformed
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_fTanggalActionPerformed
-
-    private void fTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fTotalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fTotalActionPerformed
-
-    private void bLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogoutActionPerformed
-        
-    }//GEN-LAST:event_bLogoutActionPerformed
-
-    private void tBelanjaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tBelanjaKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tBelanjaKeyTyped
+        this.requestFocus();
+    }//GEN-LAST:event_formMouseClicked
 
     /**
      * @param args the command line arguments
@@ -298,7 +254,9 @@ public class LaporanTransaksi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel JLabel1;
     private javax.swing.JButton bLogout;
+    private javax.swing.JButton bTransaksi;
     private javax.swing.JTextField fTanggal;
     private javax.swing.JTextField fTotal;
     private javax.swing.JLabel jLabel7;
@@ -306,6 +264,6 @@ public class LaporanTransaksi extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lKasir;
     private javax.swing.JLabel lMsg;
-    private javax.swing.JTable tBelanja;
+    private javax.swing.JTable tLaporan;
     // End of variables declaration//GEN-END:variables
 }

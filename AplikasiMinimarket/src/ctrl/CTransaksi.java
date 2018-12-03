@@ -161,9 +161,12 @@ public class CTransaksi implements ActionListener, TableModelListener{
             UI2.setVisible(true);
             UI2.getbConfirm().setVisible(true);
         }else if(Source.equals(UI.getbNavData())){
-
+            UI.dispose();
+            UI2.dispose();
+            CLaporan cL = new CLaporan(k);
         }else if(Source.equals(UI.getbLogout())){
             UI.dispose();
+            UI2.dispose();
             clogin l = new clogin();
         }
         

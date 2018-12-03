@@ -9,7 +9,10 @@ package ctrl;
 import GUI.LaporanTransaksi;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeEvent;
@@ -24,166 +27,63 @@ import model.pembeli;
  *
  * @author CakBin
  */
-public class CLaporan implements ActionListener, TableModelListener{
+public class CLaporan implements ActionListener, FocusListener{
     private Kasir k;
     private pembeli p;
-    private Barang b;
-    private Barang stok;
-    private Barang belian;
     private LaporanTransaksi UI;
     private String msg;
     
-    public CLaporan(Barang _b){
-        b = _b;
+    public CLaporan(Kasir _k){
+        k = _k;
         p = new pembeli();
         p.setK(k);
-        
-        stok = new Barang();
-        belian = new Barang();
+
         UI = new LaporanTransaksi();
         
         UI.addActonListener(this);
-        UI.addTableModelListener(this);
+        UI.addFocusListenerE(this);
        
-        UI.setVisible(true);
-        
-        init();
-    }
-    
-    private void init(){
+        UI.setVisible(true);  
         UI.setKasir(k.getNama());
-        try {
-            p.setLastId();
-            UI.setPembeli(p.getId());
-        } catch (SQLException ex) {
-            msg = ex.getMessage();
-            UI.setMsg(msg);
-        }
     }
     
-    private void update(int row) throws SQLException{
-        belian = new Barang();
-        if(row >= p.getDaftar().size()){
-            if(belian.Search(UI.getSelectedKode(row).toUpperCase())){
-                if(UI.getSelectedJumlah(row) <= belian.getJumlah()){
-                    belian.setJumlah(UI.getSelectedJumlah(row));
-                }else{
-                    msg = "Stok tak mencukupi";
-                    UI.setMsg(msg);
-                }
-                p.addBarang(belian);
-                UI.setTabel(p.getDaftar());
-                UI.setTotal(p.totalHarga());
-            }else{
-                msg = "Barang tak ditemukan";
-                UI.setMsg(msg);
-            }         
-        }else{
-            if(belian.Search(UI.getSelectedKode(row).toUpperCase())){
-               if(UI.getSelectedJumlah(row) <= belian.getJumlah()){
-                    belian.setJumlah(UI.getSelectedJumlah(row));
-               }else{
-                    msg = "Stok tak mencukupi";
-                    UI.setMsg(msg);
-                }
-               p.getDaftar().set(row, belian);
-               UI.setTabel(p.getDaftar());
-               UI.setTotal(p.totalHarga());
-            }else{
-                msg = "Barang tak ditemukan";
-                UI.setMsg(msg);
-            }
+    public void update() throws SQLException{
+        List<Barang> B = p.rekapBrgbyTgl(k.getId(), UI.getfTanggal().getText());
+        UI.setTabel(B);
+        
+        int total = 0;
+        for (Barang B1 : B) {
+            total += B1.hargaTotal();
         }
-    }
-    
-    private boolean HitungKembalian(){
-        try{
-            int kembali = UI2.getBayar() - p.totalHarga();
-            if(kembali >= 0){
-                UI2.setKembali(kembali);
-                return true;
-            }else{
-                msg = "Uang tak cukup";
-                UI2.setMsg(msg);
-                return false;
-            }
-        }catch(Exception e){
-            msg = "Uang berupa angka";
-            UI2.setMsg(msg);
-            return false;
-        }
-    }
-    
-    private void proses() throws SQLException{
-        if(HitungKembalian()){
-            for (Barang daftar : p.getDaftar()) {
-                stok.Search(daftar.getKode());
-                stok.setJumlah(stok.getJumlah() - daftar.getJumlah());
-                stok.Update();
-            }
-            msg = p.Add();
-            UI2.setMsg(msg);
-            UI2.getbConfirm().setVisible(false);
-            next();
-        }
-    }
-    private void next(){
-        p.Next();
-        UI.setPembeli(p.getId());
-        UI.reset();
-        UI.setMsg(null);
-        UI.setTotal(p.totalHarga());
-    }
-    
-    private void delete(){
-        if(UI.getSelectedRow()<p.getDaftar().size()){
-            p.getDaftar().remove(UI.getSelectedRow());
-            UI.setTabel(p.getDaftar());
-            UI.setTotal(p.totalHarga());
-        }
+        
+        UI.setTotal(total);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Object Source = e.getSource();
-        if(Source.equals(UI.getbDelete())){
-            delete();
-        }else if(Source.equals(UI.getbSubmit())){
-            setKonfirmasi();
-            UI2.setVisible(true);
-            UI2.getbConfirm().setVisible(true);
-        }else if(Source.equals(UI.getbNavData())){
-
-        }else if(Source.equals(UI.getbLogout())){
+        Object source = e.getSource();
+        if(source == UI.getbLogout()){
             UI.dispose();
-            clogin l = new clogin();
-        }
-        
-        else if(Source.equals(UI2.getbCancel())){
-            UI2.setVisible(false);
-        }else if(Source.equals(UI2.getbConfirm())){
-            try {
-                proses();
-            } catch (SQLException ex) {
-                msg = ex.getMessage();
-                UI2.setMsg(msg);
-            }
-            
+            clogin c = new clogin();
+        }else{
+            UI.dispose();
+            CTransaksi cT = new CTransaksi(k);
         }
     }
 
     @Override
-    public void tableChanged(TableModelEvent e) {
-        if(e.getColumn()!=-1){
-            if((e.getColumn() == 0)||(e.getColumn() == 2)){
-                UI.setMsg(null);
-                try {
-                    update(e.getFirstRow());
-                } catch (SQLException ex) {
-                    msg="Database error";
-                    UI.setMsg(msg);
-                }
-            }
+    public void focusGained(FocusEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        try {
+            update();
+        } catch (SQLException ex) {
+            msg = "Database error";
+            UI.setMsg(msg);
         }
     }
+
 }

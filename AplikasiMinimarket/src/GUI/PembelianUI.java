@@ -119,7 +119,7 @@ public class PembelianUI extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
         String a = "";
         String b = "";
-        String c = "";
+        String c = "0";
         int d = 0;       
         Object[] row = {a,b,c,d};
         model.insertRow(0, row);       

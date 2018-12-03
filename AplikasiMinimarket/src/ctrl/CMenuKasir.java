@@ -31,43 +31,6 @@ public class CMenuKasir implements ActionListener{
         HK.addActionListener(this);
         HK.setVisible(true);
     }
-    
-    /*
-    public void init(Kasir _k){
-        k = _k;
-        p = new pembeli();
-        try{
-            p.setLastId();
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
-        stok = new Barang();
-        belanja = new Barang();
-        msg = "";
-    }
-    
-    private boolean ValidasiPembelian(){
-        return true;
-    }
-    
-    private void savePembelian(){
-        msg = p.Add();
-    }
-    
-    private int totalPenjualan(){
-        int total = 0;
-        try {
-            List<Barang> B;
-            B = p.rekapBrgbyKsr(k.getId());
-            for (Barang B1 : B) {
-                total += B1.hargaTotal();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CMenuManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return total;
-    } 
-    */
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -76,7 +39,8 @@ public class CMenuKasir implements ActionListener{
             HK.dispose();
             CTransaksi cT = new CTransaksi(k);
         }else if(Source.equals(HK.getbLaporan())){
-            
+            HK.dispose();
+            CLaporan cL = new CLaporan(k);
         }else if(Source.equals(HK.getbLogout())){
             HK.dispose();
             clogin l = new clogin();
