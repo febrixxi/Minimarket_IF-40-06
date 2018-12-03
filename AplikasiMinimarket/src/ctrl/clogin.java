@@ -44,32 +44,32 @@ public class clogin implements ActionListener{
         return m.Auth();
     }
     
-    private int login() throws SQLException{
+    private int login(){
         String id = L.getID();
         String pwd = L.getPwd();
-        if(authMng(id,pwd)){
-            return 0;
-        }else if(authKasir(id,pwd)){
-            return 1;
+        try {
+            if(authMng(id,pwd)){
+                return 0;
+            }else if(authKasir(id,pwd)){
+                return 1;
+            }
+        } catch (SQLException ex) {
+            msg = ex.getMessage();
+            L.setMsg(msg);
         }
         return -1;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            if(login() == 0){
-                L.dispose();
-                CMenuManager M = new CMenuManager(m);
-            }else if(login() == 1){
-                L.dispose();
-                CMenuKasir K = new CMenuKasir(k);
-            }else{
-                msg = "ID/Password salah";
-                L.setMsg(msg);
-            }
-        } catch (SQLException ex) {
-            msg = "Database error ";
+        if(login() == 0){
+            L.dispose();
+            CMenuManager M = new CMenuManager(m);
+        }else if(login() == 1){
+            L.dispose();
+            CMenuKasir K = new CMenuKasir(k);
+        }else{
+            msg = "ID/Password salah";
             L.setMsg(msg);
         }
     }

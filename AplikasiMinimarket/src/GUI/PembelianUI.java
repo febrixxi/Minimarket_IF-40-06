@@ -119,7 +119,7 @@ public class PembelianUI extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tBelanja.getModel();
         String a = "";
         String b = "";
-        String c = "0";
+        String c = "";
         int d = 0;       
         Object[] row = {a,b,c,d};
         model.insertRow(0, row);       
@@ -193,6 +193,11 @@ public class PembelianUI extends javax.swing.JFrame {
         bSubmit.setText("Submit");
 
         bLogout.setText("Logout");
+        bLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bLogoutActionPerformed(evt);
+            }
+        });
 
         bNavData.setText("Data Penjualan");
 
@@ -277,6 +282,10 @@ public class PembelianUI extends javax.swing.JFrame {
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bDeleteActionPerformed
+
+    private void bLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bLogoutActionPerformed
 
     /**
      * @param args the command line arguments
